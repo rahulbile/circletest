@@ -1,0 +1,41 @@
+machine:
+  php:
+    version: 5.4.5
+  environment:
+    PATH: $PATH:$HOME/vendor/drush
+
+## Customize checkout
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init # use submodules
+
+## Customize dependencies
+dependencies:
+  cache_directories:
+    - ~/vendor
+    - ~/.composer/vendor
+    - ~/.drush
+
+  pre:
+    # Dynamic hosts through Pantheon mean constantly checking interactively
+    # that we mean to connect to an unknown host. We ignore those here.
+    - echo "StrictHostKeyChecking no" > ~/.ssh/config
+
+    # # Install drush.
+    # - |
+    #   if [ ! -e ~/.composer/vendor/bin/drush ]; then
+    #     composer global require --prefer-source --no-interaction drush/drush:dev-master
+    #     drush cc drush
+    #   fi
+
+    # Install drush (manually).
+    - |
+      mkdir -p ~/vendor
+      if [ ! -d ~/vendor/drush ]; then
+        git clone https://github.com/drush-ops/drush.git ~/vendor/drush
+        cd ~/vendor/drush
+        chmod u+x drush
+        composer install --prefer-source --no-interaction
+        drush cc drush
+      fi
