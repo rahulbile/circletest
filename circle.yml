@@ -33,7 +33,7 @@ dependencies:
     - |
       mkdir -p ~/vendor
       if [ ! -d ~/vendor/drush ]; then
-        git clone https://github.com/drush-ops/drush.git ~/vendor/drush
+        git clone http://github.com/drush-ops/drush.git ~/vendor/drush
         cd ~/vendor/drush
         chmod u+x drush
         composer install --prefer-source --no-interaction
