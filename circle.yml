@@ -29,13 +29,10 @@ dependencies:
     #     drush cc drush
     #   fi
 
-    # Install drush (manually).
-    - |
-      mkdir -p ~/vendor
-      if [ ! -d ~/vendor/drush ]; then
-        git clone http://github.com/drush-ops/drush.git ~/vendor/drush
-        cd ~/vendor/drush
-        chmod u+x drush
-        composer install --prefer-source --no-interaction
-        drush cc drush
-      fi
+    # Grep in commit the param to skip the db sync.
+    SKIPDB=0
+    if [echo git log -1 | egrep -wi --color '\[skipdb\]']; then
+      let SKIPDB=1
+      echo 'Skipping DB sync'
+    fi
+
