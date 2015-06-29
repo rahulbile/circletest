@@ -32,7 +32,7 @@ dependencies:
     # Grep in commit the param to skip the db sync.
     - |
       SKIPDB=0
-      if [echo git log -1 | egrep -wi --color '\[skipdb\]']; then
+      if [git log -1 | egrep -wi --color '\[skipdb\]']; then
         let SKIPDB=1
         echo 'Skipping DB sync'
       fi
